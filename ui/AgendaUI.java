@@ -112,7 +112,7 @@ public class AgendaUI {
                             removerEndereco(agenda.get(idContato));
                         }
                     }
-                    case 4 -> {//remover esse contato
+                    case 4 -> {//remover este contato
                         if (agendaNaoVazia()) {
                             listarContato();
                             removerContato(idContato);
@@ -211,16 +211,18 @@ public class AgendaUI {
 
     public void removerTelefone(Contato contato) {
         if(contato.getTelefones().size()>0){
-            List<Telefone> telefonestemp= new ArrayList<>();
+            // List<Telefone> telefonestemp= new ArrayList<>();
             System.out.println(contato.exibirTelefones());
             Integer idTelefone = ConsoleUIHelper.askInt("Digite o ID do telefone a ser removido") ;
-            contato.getTelefones().set(idTelefone,null);
-            for (Telefone item : contato.getTelefones()) {
-                if(item != null){
-                    telefonestemp.add(item);
-                }
-            }
-            contato.setTelefones(telefonestemp);
+            boolean  teste = contato.getTelefones().remove(contato.getTelefones().get(idTelefone));
+            System.out.println(teste);
+            // contato.getTelefones().set(idTelefone,null);
+            // for (Telefone item : contato.getTelefones()) {
+            //     if(item != null){
+            //         telefonestemp.add(item);
+            //     }
+            // }
+            // contato.setTelefones(telefonestemp);
         } else {
             ConsoleUIHelper.drawHeader("Esse contato não possui telefones cadastrados", 80);
         }
