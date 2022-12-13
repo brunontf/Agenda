@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AgendaUI {
+
+/*    private int tamanhoPagina;
+    private int posicaoAtual;*/
     private List<Contato> agenda;
 
     public AgendaUI(){
@@ -37,9 +40,7 @@ public class AgendaUI {
                         if (ConsoleUIHelper.askConfirm("Você deseja adicionar um endereço?", "sim", "não")) {
                             adicionarEndereco(contato);
                         }
-                        System.out.println();
-                        
-                        contato.exibirContato();
+                        exibirContato(contato);
 
                     }
                 }
@@ -47,9 +48,15 @@ public class AgendaUI {
             case 1 -> {//listar contatos por nome completo
                 if(agendaNaoVazia()){
                     listarContato();
+/*                  tamanhoPagina = 10; //O professor usou lambda e dessa forma eu não sei como imprimir o Id.
+                                        //Tb teriamos que reatribuir um valor para passarmos para a proxima pagina
+                    posicaoAtual = 0;
+                    agenda.listar(posicaoAtual, tamanhoPagina).forEach(item -> {
+                        System.out.println(item.getNomeCompleto());
+                    });*/
                     ConsoleUIHelper.drawLine(80);
                     System.out.println();
-                    Integer idContato = ConsoleUIHelper.askInt("Digite o ID do contato a ser exibido") -1;
+                    Integer idContato = ConsoleUIHelper.askInt("Digite o ID do contato a ser exibido:") -1;
                     editarContato(idContato);
 
                 }
@@ -57,9 +64,9 @@ public class AgendaUI {
             }
             case 2 -> {//buscar contato
                 if(agendaNaoVazia()){
-                    String palavraAProcurar = ConsoleUIHelper.askNoEmptyInput("Digite o nome do contato a ser buscado", 3);
+                    String palavraAProcurar = ConsoleUIHelper.askNoEmptyInput("Digite o nome do contato a ser buscado:", 3);
                     buscarContato(palavraAProcurar);
-                    Integer idContato = ConsoleUIHelper.askInt("Digite o ID do contato a ser detalhado") -1;
+                    Integer idContato = ConsoleUIHelper.askInt("Digite o ID do contato a ser exibido:") -1;
                     editarContato(idContato);
                 }
             }
@@ -82,8 +89,8 @@ public class AgendaUI {
             exibirContato(agenda.get(idContato));
             if(agendaNaoVazia()){
                 int opcaoEditar = ConsoleUIHelper.askChooseOption("Digite a opção desejada:"
-                ,"adicionar um telefone do contato","remover um telefone do contato",
-                "adicionar um endereço do contato","remover um endereço do contato","Remover este contato","Retornar ao menu inicial");
+                ,"Adicionar um telefone ao contato","Remover um telefone do contato",
+                "Adicionar um endereço ao contato","Remover um endereço do contato","Remover este contato","Retornar ao menu inicial");
                 switch (opcaoEditar){
                     case 0 ->{//adicionar um telefone a um contato;
                         if(agendaNaoVazia()){
@@ -189,7 +196,7 @@ public class AgendaUI {
             case 1 -> {
                 tipoEndereco = TipoEndereco.COMERCIAL;
             }
-            case 2 -> System.out.println("endereço em branco");
+            case 2 -> System.out.println("Endereço em branco.");
         }
 
         Endereco endereco = new Endereco(cep, logradouro, numero, cidade, estado, tipoEndereco);
@@ -213,7 +220,7 @@ public class AgendaUI {
         if(contato.getTelefones().size()>0){
             // List<Telefone> telefonestemp= new ArrayList<>();
             System.out.println(contato.exibirTelefones());
-            Integer idTelefone = ConsoleUIHelper.askInt("Digite o ID do telefone a ser removido") ;
+            Integer idTelefone = ConsoleUIHelper.askInt("Digite o ID do telefone a ser removido:") ;
             boolean  teste = contato.getTelefones().remove(contato.getTelefones().get(idTelefone));
             System.out.println(teste);
             // contato.getTelefones().set(idTelefone,null);
@@ -234,7 +241,7 @@ public class AgendaUI {
             List<Endereco> enderecosTemp = new ArrayList<>();
             System.out.println(contato.exibirEnderecos());
 
-            Integer idEndereco = ConsoleUIHelper.askInt("Digite o ID do endereço a ser removido") ;
+            Integer idEndereco = ConsoleUIHelper.askInt("Digite o ID do endereço a ser removido:") ;
             contato.getEnderecos().set(idEndereco,null);
             for (Endereco item : contato.getEnderecos()) {
                 if(item != null){
@@ -315,5 +322,28 @@ public class AgendaUI {
         }
         return -2;
     }
+
+/*    public List<Contato> listarPaginado (int start, int quantidade) {
+        List<Contato> contatosEncontrados = new ArrayList<>();
+        if (start < 0 || start >= agenda.size()) {
+            start = 0;
+        }
+        if (quantidade < 0) {
+            quantidade = 0;
+        }
+        if (quantidade > agenda.size()) {
+            quantidade = agenda.size();
+        }
+        if (start+quantidade >= agenda.size()) {
+            quantidade = (agenda.size() - start);
+        }
+        for (int i = start; i < start + quantidade; i++) {
+            if(i == agenda.size()) {
+                break;
+            }
+            contatosEncontrados.add(agenda.get(i));
+        }
+        return contatosEncontrados;
+    }*/
 
 }

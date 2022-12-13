@@ -98,7 +98,7 @@ public class Contato {
     public String exibirTelefones() {
         String exibirTelefones="";
         for (int i = 0; i < telefones.size(); i++) {
-            exibirTelefones += i + " - " + telefones.get(i).getTelefoneDetalhado() +"\n";
+            exibirTelefones += i + " - " + telefones.get(i).getTelefoneDetalhado();
         }
         return exibirTelefones;
    }
@@ -114,7 +114,7 @@ public class Contato {
     public String exibirEnderecos(){
         String exibirEnderecos="";
         for (int i = 0; i < enderecos.size(); i++) {
-            exibirEnderecos += i +" - "+ enderecos.get(i).getEnderecosDetalhado() +"\n";
+            exibirEnderecos += i +" - "+ enderecos.get(i).getEnderecosDetalhado();
         }
         return exibirEnderecos;
    }
