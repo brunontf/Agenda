@@ -14,8 +14,8 @@ import java.util.List;
 
 public class AgendaUI {
 
-/*    private int tamanhoPagina;
-    private int posicaoAtual;*/
+    private int tamanhoPagina;
+    private int posicaoAtual;
     private List<Contato> agenda;
 
     public AgendaUI(){
@@ -47,17 +47,36 @@ public class AgendaUI {
 
             case 1 -> {//listar contatos por nome completo
                 if(agendaNaoVazia()){
-                    listarContato();
-/*                  tamanhoPagina = 10; //O professor usou lambda e dessa forma eu não sei como imprimir o Id.
-                                        //Tb teriamos que reatribuir um valor para passarmos para a proxima pagina
+//                    listarContato();
+                    ConsoleUIHelper.drawHeader("Lista de contatos", 80);
+                    tamanhoPagina = 2;
                     posicaoAtual = 0;
-                    agenda.listar(posicaoAtual, tamanhoPagina).forEach(item -> {
-                        System.out.println(item.getNomeCompleto());
-                    });*/
+                    listarPaginado(posicaoAtual, tamanhoPagina).forEach(contato -> {
+                        System.out.println(contatoPosition(contato) + " - " + contato.getNomeCompleto());
+                    });
                     ConsoleUIHelper.drawLine(80);
                     System.out.println();
-                    Integer idContato = ConsoleUIHelper.askInt("Digite o ID do contato a ser exibido:") -1;
-                    editarContato(idContato);
+                    Integer opcaoPagina;
+                    do {
+                        opcaoPagina = ConsoleUIHelper.askChooseOption("Selecione a opção desejada", "Exibir contato", "Próxima página");
+                        switch (opcaoPagina) {
+                            case 0 -> {
+                                ConsoleUIHelper.drawLine(80);
+                                System.out.println();
+                                Integer idContato = ConsoleUIHelper.askInt("Digite o ID do contato a ser exibido:") - 1;
+                                editarContato(idContato);
+                            }
+                            case 1 -> {
+                                ConsoleUIHelper.drawHeader("Lista de contatos", 80);
+                                posicaoAtual += tamanhoPagina;
+                                listarPaginado(posicaoAtual, tamanhoPagina).forEach(contato -> {
+                                    System.out.println(contatoPosition(contato) + " - " + contato.getNomeCompleto());
+                                });
+                                ConsoleUIHelper.drawLine(80);
+                                System.out.println();
+                            }
+                        }
+                    } while (opcaoPagina == 1);
 
                 }
 
@@ -323,7 +342,7 @@ public class AgendaUI {
         return -2;
     }
 
-/*    public List<Contato> listarPaginado (int start, int quantidade) {
+    public List<Contato> listarPaginado (int start, int quantidade) {
         List<Contato> contatosEncontrados = new ArrayList<>();
         if (start < 0 || start >= agenda.size()) {
             start = 0;
@@ -344,6 +363,6 @@ public class AgendaUI {
             contatosEncontrados.add(agenda.get(i));
         }
         return contatosEncontrados;
-    }*/
+    }
 
 }
